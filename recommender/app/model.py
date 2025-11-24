@@ -153,6 +153,7 @@ class SimpleHybridRecommender:
                     'id': m.get('id'),
                     'title': m.get('title', 'Unknown'),
                     'overview': m.get('overview', ''),
+                    'posterPath': m.get('posterPath', ''),
                     'explanation': f'Popular movie (avg rating: {avg_rating:.1f})'
                 })
         
@@ -192,13 +193,13 @@ class SimpleHybridRecommender:
             final_scores = collab_weight * collab_scores + content_weight * content_scores
             explanation = f'Recommended by {method}'
         elif collab_scores is not None:
-            # Only collaborative available
+            # Only collaborative available (user hasn't rated enough movies highly for content-based)
             final_scores = collab_scores
-            explanation = 'Recommended based on your rating patterns'
+            explanation = f'Recommended by {method} (collaborative only)'
         elif content_scores is not None:
             # Only content-based available
             final_scores = content_scores
-            explanation = 'Recommended based on content similarity to movies you liked'
+            explanation = f'Recommended by {method} (content only)'
         else:
             # Neither method available - fall back to popular
             return self.popular_recommendations(topk)
@@ -213,6 +214,7 @@ class SimpleHybridRecommender:
                     'id': m.get('id'),
                     'title': m.get('title', 'Unknown'),
                     'overview': m.get('overview', ''),
+                    'posterPath': m.get('posterPath', ''),
                     'explanation': explanation,
                     'score': float(final_scores[idx])
                 })

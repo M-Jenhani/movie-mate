@@ -1,12 +1,68 @@
 import express from 'express'
 import prisma from '../prismaClient'
 import { requireAuth, AuthRequest } from '../middleware/auth'
+import axios from 'axios'
 
 const router = express.Router()
 
+// Helper function to retrain recommender
+async function retrainRecommender() {
+  try {
+    const movies = await prisma.movie.findMany()
+    const ratings = await prisma.rating.findMany()
+    
+    const movieData = movies.map(m => ({
+      id: m.id,
+      title: m.title,
+      overview: m.overview || '',
+      posterPath: m.posterPath || ''
+    }))
+    
+    const ratingData = ratings.map(r => ({
+      userId: r.userId,
+      movieId: r.movieId,
+      score: r.score
+    }))
+    
+    await axios.post('http://localhost:8001/train', {
+      movies: movieData,
+      ratings: ratingData
+    })
+    
+    console.log('✓ Recommender retrained successfully')
+  } catch (error) {
+    console.error('Failed to retrain recommender:', error)
+  }
+}
+
 router.get('/', async (req, res) => {
-  const q = await prisma.movie.findMany({ take: 50 })
-  res.json(q)
+  // Optional: include user's ratings if authenticated
+  const token = req.headers.authorization?.replace('Bearer ', '')
+  let userId: number | undefined
+  
+  if (token) {
+    try {
+      const jwt = require('jsonwebtoken')
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any
+      userId = decoded.sub  // Token uses 'sub' not 'userId'
+      console.log('✓ User authenticated, userId:', userId)
+    } catch (error) {
+      console.error('Token verification failed:', error)
+    }
+  } else {
+    console.log('No token provided')
+  }
+
+  const movies = await prisma.movie.findMany({ 
+    take: 100,
+    include: {
+      ratings: userId ? { where: { userId } } : false,
+      watchlist: userId ? { where: { userId } } : false
+    }
+  })
+  
+  console.log('Sending movies, first movie has ratings:', movies[0]?.ratings)
+  res.json(movies)
 })
 
 router.get('/:id', async (req, res) => {
@@ -26,7 +82,11 @@ router.post('/:id/rate', requireAuth, async (req: AuthRequest, res) => {
     update: { score },
     create: { userId, movieId, score }
   })
-  res.json(up)
+  
+  // Retrain recommender with new rating (non-blocking)
+  retrainRecommender().catch(err => console.error('Retrain error:', err))
+  
+  res.json({ ...up, message: 'Rating saved! Recommendations updating...' })
 })
 
 router.post('/:id/watchlist', requireAuth, async (req: AuthRequest, res) => {
@@ -35,6 +95,17 @@ router.post('/:id/watchlist', requireAuth, async (req: AuthRequest, res) => {
   try {
     const entry = await prisma.watchlist.create({ data: { userId, movieId } })
     res.json(entry)
+  } catch (err: any) {
+    res.status(400).json({ error: err.message })
+  }
+})
+
+router.delete('/:id/watchlist', requireAuth, async (req: AuthRequest, res) => {
+  const movieId = Number(req.params.id)
+  const userId = req.userId!
+  try {
+    await prisma.watchlist.deleteMany({ where: { userId, movieId } })
+    res.json({ message: 'Removed from watchlist' })
   } catch (err: any) {
     res.status(400).json({ error: err.message })
   }

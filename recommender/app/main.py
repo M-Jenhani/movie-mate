@@ -24,6 +24,7 @@ class MovieItem(BaseModel):
     id: int
     title: str
     overview: str = ''
+    posterPath: str = ''
 
 
 @app.get('/health')
@@ -34,7 +35,7 @@ def health():
 @app.post('/train')
 def train(movies: List[MovieItem], ratings: List[dict] = []):
     # Fit content
-    items = [{'id': m.id, 'title': m.title, 'overview': m.overview or '', 'text': (m.title + ' ' + (m.overview or ''))} for m in movies]
+    items = [{'id': m.id, 'title': m.title, 'overview': m.overview or '', 'posterPath': m.posterPath or '', 'text': (m.title + ' ' + (m.overview or ''))} for m in movies]
     rec.fit_content(items)
     rec.train_collaborative(ratings)
     return {'status': 'trained', 'movies': len(movies), 'ratings': len(ratings)}
@@ -46,7 +47,7 @@ def recommend(user_id: int, topk: int = 10):
         raise HTTPException(status_code=400, detail='Model not trained')
     out = rec.recommend_for_user(user_id, topk=topk)
     # Ensure results are serializable
-    return {'user': user_id, 'results': out}
+    return {'user': user_id, 'recommendations': out}
 
 
 if __name__ == '__main__':

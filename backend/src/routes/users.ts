@@ -5,7 +5,22 @@ import { requireAuth, AuthRequest } from '../middleware/auth'
 const router = express.Router()
 
 router.get('/me', requireAuth, async (req: AuthRequest, res) => {
-  const user = await prisma.user.findUnique({ where: { id: req.userId }, include: { ratings: true, watchlist: true } })
+  const userId = req.userId!
+  const user = await prisma.user.findUnique({ 
+    where: { id: userId }, 
+    include: { 
+      ratings: { include: { movie: true } }, 
+      watchlist: { 
+        include: { 
+          movie: {
+            include: {
+              ratings: { where: { userId } }
+            }
+          }
+        } 
+      } 
+    } 
+  })
   res.json(user)
 })
 
