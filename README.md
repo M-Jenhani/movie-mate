@@ -1,6 +1,6 @@
 # MovieMate
 
-MovieMate is a full-stack movie recommendation platform (scaffold).
+MovieMate is a full-stack movie recommendation platform.
 
 Components:
 - `backend/` — Node.js + TypeScript + Express + Prisma + JWT auth
