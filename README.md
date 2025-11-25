@@ -1,15 +1,32 @@
 # MovieMate
 
-MovieMate is a full-stack movie recommendation platform.
+MovieMate is a full-stack movie recommendation platform with personalized recommendations.
 
-Components:
+## Components
 - `backend/` — Node.js + TypeScript + Express + Prisma + JWT auth
 - `recommender/` — FastAPI + PyTorch + scikit-learn hybrid recommender
 - `frontend/` — React + TypeScript + Vite + Tailwind UI
 
-See each folder's README and `.env.example` for run instructions.
+## Quick Start
 
-Quick start (PowerShell):
+### Option 1: Docker (Recommended)
+
+```bash
+# Start all services with Docker Compose
+docker-compose up --build
+
+# Seed the database (first time only)
+docker-compose exec backend npm run seed
+
+# Train the recommender (optional)
+docker-compose exec backend npx ts-node src/scripts/train_recommender.ts
+```
+
+Access the app at http://localhost:3000
+
+See [DOCKER.md](DOCKER.md) for detailed Docker instructions.
+
+### Option 2: Manual Setup (PowerShell)
 
 1. Start Postgres and set `DATABASE_URL` in `backend/.env`.
 2. In `backend/`:

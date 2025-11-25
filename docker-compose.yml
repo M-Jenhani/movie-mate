@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: moviemate-db
+    environment:
+      POSTGRES_USER: moviemate
+      POSTGRES_PASSWORD: moviemate123
+      POSTGRES_DB: moviemate
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moviemate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - moviemate-network
+
+  # Backend (Node.js + Express + Prisma)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: moviemate-backend
+    environment:
+      DATABASE_URL: postgresql://moviemate:moviemate123@postgres:5432/moviemate
+      JWT_SECRET: your_jwt_secret_change_in_production
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - moviemate-network
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"
+
+  # Recommender (FastAPI + PyTorch)
+  recommender:
+    build:
+      context: ./recommender
+      dockerfile: Dockerfile
+    container_name: moviemate-recommender
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./recommender:/app
+    networks:
+      - moviemate-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+
+  # Frontend (React + Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: moviemate-frontend
+    environment:
+      VITE_API_URL: http://localhost:4000
+      VITE_RECOMMENDER_URL: http://localhost:8001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+      - recommender
+    networks:
+      - moviemate-network
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data:
+
+networks:
+  moviemate-network:
+    driver: bridge
