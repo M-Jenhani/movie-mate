@@ -26,7 +26,8 @@ async function main() {
   }))
 
   // Send to recommender
-  const res = await fetch('http://localhost:8001/train', {
+  const recommenderUrl = process.env.RECOMMENDER_URL || 'http://localhost:8001';
+  const res = await fetch(`${recommenderUrl}/train`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ movies: movieData, ratings: ratingData })
