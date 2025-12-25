@@ -47,7 +47,7 @@ export default function ForYou({ onLoginRequired }: { onLoginRequired?: () => vo
     return (
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-8">Recommended For You</h2>
-        <p className="text-gray-500">Loading your personalized recommendations...</p>
+        <p className="text-black-500" style={{ color: "black" }}>Loading your personalized recommendations...</p>
       </div>
     )
   }
@@ -66,7 +66,7 @@ export default function ForYou({ onLoginRequired }: { onLoginRequired?: () => vo
             <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
               Login Required
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p style={{ color: "black" }} className="text-black-600 dark:text-gray-400 mb-6">
               Please login to see your personalized recommendations based on your taste
             </p>
             <button

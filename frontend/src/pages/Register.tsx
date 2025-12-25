@@ -51,8 +51,8 @@ export default function Register({ onRegistered }: { onRegistered?: ()=>void }){
       <div className="min-h-[80vh] flex items-center justify-center px-2 sm:px-4">
         <div className="text-center">
           <div className="text-4xl sm:text-6xl mb-4">✓</div>
-          <div className="text-green-500 text-xl sm:text-2xl font-bold mb-2">Registration Successful!</div>
-          <div className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Redirecting to login...</div>
+          <div style={{ color: "black" }} className="text-green-500 text-xl sm:text-2xl font-bold mb-2">Registration Successful!</div>
+          <div style={{ color: "black" }} className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Redirecting to login...</div>
         </div>
       </div>
     )

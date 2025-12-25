@@ -135,7 +135,7 @@ export default function App(){
         {/* Footer */}
         <footer className="mt-8 sm:mt-16 py-6 sm:py-8 bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 border-t-2 border-purple-200 dark:border-purple-800">
           <div className="max-w-7xl mx-auto px-2 sm:px-4 text-center">
-            <p className="text-xs sm:text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <p style={{ color: "black" }} className="text-xs sm:text-sm font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               MovieMate © 2025 - Discover, Rate, and Get Personalized Movie Recommendations
             </p>
           </div>
