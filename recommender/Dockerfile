@@ -14,11 +14,14 @@ COPY requirements.txt .
 
 # Install Python dependencies with CPU-only PyTorch and minimal CUDA
 # This reduces image size from 7.8GB to ~2GB
+# Install PyTorch CPU separately first to avoid index URL conflicts
+RUN pip install --no-cache-dir torch>=2.0.0 --index-url https://download.pytorch.org/whl/cpu
+
+# Install remaining dependencies from default index
 RUN pip install --no-cache-dir \
     fastapi==0.95.2 \
     uvicorn[standard]==0.22.0 \
     scikit-learn>=1.3.0 \
-    torch>=2.0.0 --index-url https://download.pytorch.org/whl/cpu \
     requests==2.31.0 \
     python-multipart==0.0.6 \
     numpy>=1.24.0
