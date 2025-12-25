@@ -16,6 +16,10 @@ RUN npm install
 # Copy source code
 COPY . .
 
+# Copy startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Generate Prisma Client
 RUN npx prisma generate
 
@@ -25,5 +29,5 @@ RUN npm run build
 # Expose port
 EXPOSE 4000
 
-# Start the application
-CMD ["npm", "run", "dev"]
+# Start the application with startup script
+CMD ["/app/start.sh"]
