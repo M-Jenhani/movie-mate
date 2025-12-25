@@ -80,13 +80,13 @@ export default function Watchlist({ onLoginRequired }: { onLoginRequired?: () =>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent flex items-center gap-2">
           <span>📚</span> My Watchlist
         </h2>
-        <span className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+        <span style={{ color: "black" }} className="text-sm sm:text-base text-gray-500 dark:text-gray-500">
           {watchlist.length} {watchlist.length === 1 ? 'movie' : 'movies'}
         </span>
       </div>
       {watchlist.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">Your watchlist is empty</p>
+          <p style={{ color: "black" }} className="text-gray-500 dark:text-gray-500 text-lg mb-4">Your watchlist is empty</p>
           <a 
             href="/" 
             className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
