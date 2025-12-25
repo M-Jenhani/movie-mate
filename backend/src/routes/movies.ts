@@ -113,4 +113,8 @@ router.delete('/:id/watchlist', requireAuth, async (req: AuthRequest, res) => {
   }
 })
 
+router.get('/test-env', (req, res) => {
+  res.json({ RECOMMENDER_URL: process.env.RECOMMENDER_URL });
+});
+
 export default router
