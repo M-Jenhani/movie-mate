@@ -32,5 +32,5 @@ COPY . .
 # Expose port
 EXPOSE 8001
 
-# Start the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+# Start the application using shell form to allow environment variable expansion
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8001}
