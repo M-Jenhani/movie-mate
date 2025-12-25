@@ -100,7 +100,7 @@ export default function ForYou({ onLoginRequired }: { onLoginRequired?: () => vo
       </div>
       {recs.length === 0 ? (
         <div>
-          <p className="text-gray-500 mb-4">No recommendations yet. Start rating some movies to get personalized suggestions!</p>
+          <p className="text-black-500 mb-4">No recommendations yet. Start rating some movies to get personalized suggestions!</p>
           <button
             onClick={() => window.location.hash = 'home'}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
