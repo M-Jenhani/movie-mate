@@ -24,8 +24,7 @@ async function retrainRecommender() {
       score: r.score
     }))
     
-    console.log('RECOMMENDER_URL test :', process.env.RECOMMENDER_URL);
-    const recommenderUrl = (process.env.RECOMMENDER_URL || 'http://localhost:8001').replace(/\/$/, '')
+    const recommenderUrl = process.env.RECOMMENDER_URL || 'http://localhost:8001'
     await axios.post(`${recommenderUrl}/train`, {
       movies: movieData,
       ratings: ratingData
@@ -112,9 +111,5 @@ router.delete('/:id/watchlist', requireAuth, async (req: AuthRequest, res) => {
     res.status(400).json({ error: err.message })
   }
 })
-
-router.get('/test-env', (req, res) => {
-  res.json({ RECOMMENDER_URL: process.env.RECOMMENDER_URL });
-});
 
 export default router

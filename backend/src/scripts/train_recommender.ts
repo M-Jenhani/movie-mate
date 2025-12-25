@@ -26,7 +26,7 @@ async function main() {
   }))
 
   // Send to recommender
-  const recommenderUrl = (process.env.RECOMMENDER_URL || 'http://localhost:8001').replace(/\/$/, '');
+  const recommenderUrl = process.env.RECOMMENDER_URL || 'http://localhost:8001';
   const res = await fetch(`${recommenderUrl}/train`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
