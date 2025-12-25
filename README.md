@@ -1,5 +1,9 @@
 # MovieMate
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=github)](https://movie-mate-mauve.vercel.app/)
 
+🌐 Live Demo : [https://movie-mate-mauve.vercel.app/](https://movie-mate-mauve.vercel.app/)
+
+---
 MovieMate is a full-stack movie recommendation platform with personalized recommendations.
 
 ## Components
@@ -16,7 +20,7 @@ MovieMate is a full-stack movie recommendation platform with personalized recomm
 docker-compose up --build
 
 # Seed the database (first time only)
-docker-compose exec backend npm run seed
+docker-compose exec backend npx ts-node src/scripts/fetch_tmdb.ts
 
 # Train the recommender (optional)
 docker-compose exec backend npx ts-node src/scripts/train_recommender.ts
@@ -24,7 +28,6 @@ docker-compose exec backend npx ts-node src/scripts/train_recommender.ts
 
 Access the app at http://localhost:3000
 
-See [DOCKER.md](DOCKER.md) for detailed Docker instructions.
 
 ### Option 2: Manual Setup (PowerShell)
 
@@ -32,7 +35,7 @@ See [DOCKER.md](DOCKER.md) for detailed Docker instructions.
 2. In `backend/`:
 
 ```powershell
-cd backend; npm install; cp .env.example .env; npm run prisma:generate; npm run prisma:migrate; npm run seed
+cd backend; npm install; cp .env.example .env; npm run prisma:generate; npm run prisma:migrate; npx ts-node src/scripts/fetch_tmdb.ts
 ```
 
 3. In `recommender/`:
@@ -48,9 +51,5 @@ uvicorn app.main:app --reload --port 8001
 cd frontend; npm install; npm run dev
 ```
 
-## Option 3: Deploy to Production (FREE)
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for complete free hosting setup using:
-- **Vercel** for frontend (FREE)
-- **Railway** for backend, database, and recommender (FREE tier with $5/month credits)
 

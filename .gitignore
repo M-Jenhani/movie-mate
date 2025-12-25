@@ -11,3 +11,6 @@ frontend/node_modules/
 backend/node_modules/
 recommender/.venv/
 /*.log
+# Ignore deployment and Docker markdown files
+DEPLOYMENT_GUIDE.md
+DOCKER.md
