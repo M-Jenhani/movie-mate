@@ -36,7 +36,7 @@ export default function App(){
 
   return (
     <div className={dark ? 'dark' : ''}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/30 to-pink-50/30 dark:from-gray-900 dark:via-purple-950/20 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/30 to-pink-50/30 dark:from-gray-900 dark:via-purple-950/20 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
         {/* Sticky Navbar */}
         <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:border-gray-700/50">
           <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
@@ -123,7 +123,8 @@ export default function App(){
           </div>
         </header>
 
-        <main>
+        {/* Main Content */}
+        <main className="flex-grow">
           {page === 'home' && <Home />}
           {page === 'foryou' && <ForYou onLoginRequired={() => setPage('login')} />}
           {page === 'watchlist' && <Watchlist onLoginRequired={() => setPage('login')} />}
