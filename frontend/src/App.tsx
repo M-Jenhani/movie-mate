@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { API_ENDPOINTS } from './config/api'
 import Home from './pages/Home'
 import ForYou from './pages/ForYou'
 import Login from './pages/Login'
@@ -18,7 +19,7 @@ export default function App(){
     
     // Fetch user email if logged in
     if (token) {
-      fetch('http://localhost:4000/api/users/me', {
+      fetch(API_ENDPOINTS.USERS_ME, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => res.json())

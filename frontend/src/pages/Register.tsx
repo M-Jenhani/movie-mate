@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Register({ onRegistered }: { onRegistered?: ()=>void }){
   const [email, setEmail] = useState('')
@@ -30,7 +31,7 @@ export default function Register({ onRegistered }: { onRegistered?: ()=>void }){
       return
     }
     try{
-      await axios.post('http://localhost:4000/api/auth/register', { email, password, name })
+      await axios.post(API_ENDPOINTS.AUTH_REGISTER, { email, password, name })
       setSuccess(true)
       setTimeout(() => {
         onRegistered && onRegistered()

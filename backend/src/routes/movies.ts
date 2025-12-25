@@ -24,7 +24,8 @@ async function retrainRecommender() {
       score: r.score
     }))
     
-    await axios.post('http://localhost:8001/train', {
+    const recommenderUrl = process.env.RECOMMENDER_URL || 'http://localhost:8001'
+    await axios.post(`${recommenderUrl}/train`, {
       movies: movieData,
       ratings: ratingData
     })

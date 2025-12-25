@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 import MovieCard from '../components/MovieCard'
 
 export default function ForYou({ onLoginRequired }: { onLoginRequired?: () => void }){
@@ -19,13 +20,13 @@ export default function ForYou({ onLoginRequired }: { onLoginRequired?: () => vo
     setError('')
 
     // First, get the user's ID from /api/users/me
-    axios.get('http://localhost:4000/api/users/me', {
+    axios.get(API_ENDPOINTS.USERS_ME, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(userRes => {
       const userId = userRes.data.id
       // Now get recommendations for this specific user
-      return axios.get(`http://localhost:8001/recommend/${userId}?topk=10`)
+      return axios.get(API_ENDPOINTS.RECOMMEND(userId))
     })
     .then(recRes => {
       setRecs(recRes.data.recommendations || recRes.data.results || [])

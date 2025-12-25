@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 
 interface MovieCardProps {
   movie: any
@@ -64,7 +65,7 @@ export default function MovieCard({ movie, onRate, onWatchlist, showActions = tr
     setLoading(true)
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/movies/${movie.id}/rate`,
+        API_ENDPOINTS.MOVIE_RATE(movie.id),
         { score },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -93,7 +94,7 @@ export default function MovieCard({ movie, onRate, onWatchlist, showActions = tr
       if (inWatchlist) {
         // Remove from watchlist
         await axios.delete(
-          `http://localhost:4000/api/movies/${movie.id}/watchlist`,
+          API_ENDPOINTS.MOVIE_WATCHLIST(movie.id),
           { headers: { Authorization: `Bearer ${token}` } }
         )
         setInWatchlist(false)
@@ -101,7 +102,7 @@ export default function MovieCard({ movie, onRate, onWatchlist, showActions = tr
       } else {
         // Add to watchlist
         await axios.post(
-          `http://localhost:4000/api/movies/${movie.id}/watchlist`,
+          API_ENDPOINTS.MOVIE_WATCHLIST(movie.id),
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         )

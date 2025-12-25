@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 import MovieCard from '../components/MovieCard'
 
 export default function Watchlist({ onLoginRequired }: { onLoginRequired?: () => void }) {
@@ -16,7 +17,7 @@ export default function Watchlist({ onLoginRequired }: { onLoginRequired?: () =>
     }
 
     setLoading(true)
-    axios.get('http://localhost:4000/api/users/me', {
+    axios.get(API_ENDPOINTS.USERS_ME, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => {

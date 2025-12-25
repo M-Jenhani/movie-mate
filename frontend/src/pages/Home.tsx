@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 import MovieCard from '../components/MovieCard'
 
 // TMDB Genre ID to Name mapping
@@ -37,7 +38,7 @@ export default function Home(){
       const token = localStorage.getItem('token')
       const headers = token ? { Authorization: `Bearer ${token}` } : {}
       try {
-        const response = await axios.get('http://localhost:4000/api/movies', { headers })
+        const response = await axios.get(API_ENDPOINTS.MOVIES, { headers })
         console.log('Movies fetched:', response.data.length, 'First movie ratings:', response.data[0]?.ratings)
         setMovies(response.data)
       } catch(error) {

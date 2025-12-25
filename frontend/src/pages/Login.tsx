@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Login({ onLoggedIn }: { onLoggedIn?: ()=>void }){
   const [email, setEmail] = useState('')
@@ -21,7 +22,7 @@ export default function Login({ onLoggedIn }: { onLoggedIn?: ()=>void }){
 
   const submit = async ()=>{
     try{
-      const res = await axios.post('http://localhost:4000/api/auth/login', { email, password })
+      const res = await axios.post(API_ENDPOINTS.AUTH_LOGIN, { email, password })
       localStorage.setItem('token', res.data.token)
       onLoggedIn && onLoggedIn()
     }catch(e:any){ 
