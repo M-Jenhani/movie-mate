@@ -9,7 +9,7 @@ MovieMate is a full-stack movie recommendation platform with personalized recomm
 
 ## Quick Start
 
-### Option 1: Docker (Recommended)
+### Option 1: Docker (Recommended for Local Development)
 
 ```bash
 # Start all services with Docker Compose
@@ -47,4 +47,10 @@ uvicorn app.main:app --reload --port 8001
 ```powershell
 cd frontend; npm install; npm run dev
 ```
+
+## Option 3: Deploy to Production (FREE)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete free hosting setup using:
+- **Vercel** for frontend (FREE)
+- **Railway** for backend, database, and recommender (FREE tier with $5/month credits)
 
